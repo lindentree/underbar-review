@@ -38,6 +38,15 @@
   // Like first, but for the last elements. If n is undefined, return just the
   // last element.
   _.last = function(array, n) {
+    var x = array.length -1
+    if (n === 0) {
+      return [];
+    }
+    if (n > array.length) {
+      return array;
+    }
+    
+    return n === undefined ? array[x] : array.slice(Math.max(0, n-1)); //[1,2,3,4], 2
   };
 
   // Call iterator(value, key, collection) for each element of collection.
@@ -46,6 +55,15 @@
   // Note: _.each does not have a return value, but rather simply runs the
   // iterator function over each item in the input collection.
   _.each = function(collection, iterator) {
+    if (Array.isArray(collection)) {
+      for (var i = 0; i < collection.length; i++) {
+        iterator(collection[i], i, collection);
+      }
+    } else {
+      for (var key in collection) {
+        iterator(collection[key], key, collection);
+      }
+    }  
   };
 
   // Returns the index at which value can be found in the array, or -1 if value
@@ -67,16 +85,82 @@
 
   // Return all elements of an array that pass a truth test.
   _.filter = function(collection, test) {
+    var arr = [];
+    for (var i = 0; i < collection.length; i++) {
+      if (test(collection[i])) {
+        arr.push(collection[i]);
+      }
+    }
+    return arr;
   };
 
   // Return all elements of an array that don't pass a truth test.
   _.reject = function(collection, test) {
     // TIP: see if you can re-use _.filter() here, without simply
     // copying code in and modifying it
+    var arr = [];
+    var x = _.filter(collection, test);
+    for (var i = 0; i < collection.length; i++) {
+      if (x.includes(collection[i])) {
+        continue;
+      }
+        arr.push(collection[i]);
+    };
+      return arr;
   };
 
   // Produce a duplicate-free version of the array.
   _.uniq = function(array, isSorted, iterator) {
+    var arr = [];
+
+    if (typeof arguments[1] === 'function') {
+      var temp =[];
+    
+      for (var i = 0; i < array.length; i++) {
+        var x = iterator(array[i]);
+console.log(iterator)
+        temp.push(x);
+          }
+
+      for (var j = 0; j < temp.length; j++) {
+        if (arr.includes(temp[j])) {
+            continue;
+        }
+         arr.push(array[j]);
+
+       
+       }
+
+
+
+}
+
+    if (arguments.length === 2 && typeof arguments[1] !== 'function') {
+      if (isSorted) {
+        for (var i = 0; i < array.length; i++) {
+          if (array[i] !== array[i + 1]) {
+              arr.push(array[i]);
+          }         
+        }
+      } else {
+          for (var i = 0; i < array.length; i++) {
+            if (arr.includes(array[i])) {
+            continue;
+          }
+            arr.push(array[i]); 
+          }
+        }
+    }
+
+    for (var i = 0; i < array.length; i++) {
+      if (arr.includes(array[i])) {
+        continue;
+      }
+      arr.push(array[i]); 
+    }
+  
+   return arr;
+    
   };
 
 
