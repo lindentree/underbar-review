@@ -362,6 +362,19 @@
   // already computed the result for the given argument and return that value
   // instead if possible.
   _.memoize = function(func) {
+    var memoizedFunc = function() {
+
+    var cache = memoizedFunc.cache;
+    var resultKey = JSON.stringify(arguments);
+      if (!cache.hasOwnProperty(resultKey)) {
+        cache[resultKey] = func.apply(this, arguments);
+      }
+      return cache[resultKey];
+    };
+
+    memoizedFunc.cache = {};
+    return memoizedFunc;
+    
   };
 
   // Delays a function for the given number of milliseconds, and then calls
@@ -440,4 +453,6 @@
   // Note: This is difficult! It may take a while to implement.
   _.throttle = function(func, wait) {
   };
+    // }
+    // }
 }());
