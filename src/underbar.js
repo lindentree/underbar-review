@@ -215,19 +215,23 @@
   //   }); // should be 5, regardless of the iterator function passed in
   //          No accumulator is given so the first element is used.
   _.reduce = function(collection, iterator, accumulator) {
+
+   if(!Array.isArray(collection)) {
+      for (var key in collection) {
+        accumulator = iterator(accumulator, collection[key]);
+      }
+    }
     if(accumulator === undefined) {
       accumulator = collection[0];
       for(var i = 1; i < collection.length; i++) {
         accumulator = iterator(accumulator, collection[i]);
       } 
-    return accumulator; 
-    } 
-        
+      return accumulator; 
+    }        
 
     for (var i = 0; i < collection.length; i++) {
       accumulator = iterator(accumulator, collection[i]);
-    }
-      
+    }     
     return accumulator;
   };
 
@@ -236,17 +240,33 @@
     // TIP: Many iteration problems can be most easily expressed in
     // terms of reduce(). Here's a freebie to demonstrate!
     return _.reduce(collection, function(wasFound, item) {
-      if (wasFound) {
+      if (wasFound)
+      {
         return true;
       }
       return item === target;
     }, false);
+    
   };
+
+//collection
 
 
   // Determine whether all of the elements match a truth test.
   _.every = function(collection, iterator) {
+    if (collection.length === 0) {
+      return true;
+    }
     // TIP: Try re-using reduce() here.
+    return _.reduce(collection, function(predicate, item){
+        if (predicate) {
+          item = true;
+        } else {
+          item = false;
+        }
+
+       return item;
+      });
   };
 
   // Determine whether any of the elements pass a truth test. If no iterator is
@@ -274,12 +294,31 @@
   //   }, {
   //     bla: "even more stuff"
   //   }); // obj1 now contains key1, key2, key3 and bla
-  _.extend = function(obj) {
+  _.extend = function(obj, sources) {
+    for (var i = 1; i < arguments.length; i++) {
+      for (var key in arguments[i]) {
+        obj[key] = arguments[i][key];
+      }
+    }
+    return obj;
   };
 
   // Like extend, but doesn't ever overwrite a key that already
   // exists in obj
   _.defaults = function(obj) {
+
+    for (var i = 1; i < arguments.length; i++) {
+     
+     for (var key in arguments[i]) {
+
+      if (!obj.hasOwnProperty(key)) {
+
+        obj[key] = arguments[i][key];
+      }
+      
+      }
+    }
+    return obj;
   };
 
 
