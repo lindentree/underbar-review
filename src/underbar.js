@@ -110,58 +110,58 @@
   };
 
   // Produce a duplicate-free version of the array.
-  // _.uniq = function(array, isSorted, iterator) {
-  //   var arr = [];
+  _.uniq = function(array, isSorted, iterator) {
+    var arr = [];
 
-  //   if (typeof arguments[1] === 'function') {
-  //     var x = arguments[1]     
-  //     var copy =[];
-  //     var temp =[];
+    if (typeof arguments[1] === 'function') {
+      var x = arguments[1]     
+      var iteratedResultArr =[];
+      var temp =[];
     
-  //     for (var i = 0; i < array.length; i++) {
-  //       var y = x(array[i]);
+      for (var i = 0; i < array.length; i++) {
+        var iteratedEl = x(array[i]);
 
-  //       copy.push(y);
-  //     }
+        iteratedResultArr.push(iteratedEl);
+      }
 
 
-  //     for (var j = 0; j < copy.length; j++) {
-  //       if (temp.includes(copy[j])) {
-  //           continue;
-  //       }
-  //        copy.push(temp[j])
-  //        arr.push(array[j]);      
-  //     }
-  //     return arr;
-  //   }
+      for (var j = 0; j < iteratedResultArr.length; j++) {
+        if (temp.includes(iteratedResultArr[j])) {
+            continue;
+        }
+         temp.push(iteratedResultArr[j])
+         arr.push(array[j]);      
+      }
+      return arr;
+    }
 
-  //   if (arguments.length === 2 && typeof arguments[1] !== 'function') {
-  //     if (isSorted) {
-  //       for (var i = 0; i < array.length; i++) {
-  //         if (array[i] !== array[i + 1]) {
-  //             arr.push(array[i]);
-  //         }         
-  //       }
-  //     } else {
-  //         for (var i = 0; i < array.length; i++) {
-  //           if (arr.includes(array[i])) {
-  //           continue;
-  //         }
-  //           arr.push(array[i]); 
-  //         }
-  //       }
-  //   }
+    if (arguments.length === 2 && typeof arguments[1] !== 'function') {
+      if (isSorted) {
+        for (var i = 0; i < array.length; i++) {
+          if (array[i] !== array[i + 1]) {
+              arr.push(array[i]);
+          }         
+        }
+      } else {
+          for (var i = 0; i < array.length; i++) {
+            if (arr.includes(array[i])) {
+            continue;
+          }
+            arr.push(array[i]); 
+          }
+        }
+    }
 
-  //   for (var i = 0; i < array.length; i++) {
-  //     if (arr.includes(array[i])) {
-  //       continue;
-  //     }
-  //     arr.push(array[i]); 
-  //   }
+    for (var i = 0; i < array.length; i++) {
+      if (arr.includes(array[i])) {
+        continue;
+      }
+      arr.push(array[i]); 
+    }
   
-  //  return arr;
+   return arr;
     
-  // };
+  };
 
 
   // Return the results of applying an iterator to each element.
